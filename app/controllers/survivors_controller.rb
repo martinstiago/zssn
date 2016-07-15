@@ -3,7 +3,8 @@ class SurvivorsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   def create
-    @survivor = Survivor.new(survivor_params, resources_attributes: parsed_resources)
+    resources = parsed_resources
+    @survivor = Survivor.new(survivor_params.merge(resources_attributes: resources))
     if @survivor.save
       render json: @survivor, status: :created
     else
@@ -25,7 +26,13 @@ class SurvivorsController < ApplicationController
 
   def report_infection
     @survivor.increment(:infection_count, 1)
-    head :no_content, status: :ok
+    if @survivor.infected?
+      render json: { message: "Infected survivor!!! Reported as infected #{@survivor.infection_count} times. Kill him!!!!" },
+             status: :ok
+    else
+      render json: { message: "Survivor reported as infected #{@survivor.infection_count} times" },
+             status: :ok
+    end
   end
 
   private
@@ -48,8 +55,8 @@ class SurvivorsController < ApplicationController
 
   def parsed_resources
     resources = []
-    resources_params.each do |resource|
-      resource[:amount].times { resources << [type: resource[:type]] }
+    resources_params[:resources].each do |resource|
+      resource[:amount].to_i.times { resources << { type: resource[:type] } }
     end
     resources
   end
