@@ -1,5 +1,7 @@
 class Food < Resource
-  def self.points
-    3
+  TRADE_POINTS = 3
+
+  def points
+    TRADE_POINTS
   end
 end

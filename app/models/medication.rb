@@ -1,5 +1,7 @@
 class Medication < Resource
-  def self.points
-    2
+  TRADE_POINTS = 2
+
+  def points
+    TRADE_POINTS
   end
 end

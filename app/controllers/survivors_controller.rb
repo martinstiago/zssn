@@ -1,10 +1,8 @@
 class SurvivorsController < ApplicationController
   before_action :find_survivor, except: :create
-  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   def create
-    resources = parsed_resources
-    @survivor = Survivor.new(survivor_params.merge(resources_attributes: resources))
+    @survivor = Survivor.new(survivor_params.merge(resources_attributes: parsed_resources))
     if @survivor.save
       render json: @survivor, status: :created
     else
@@ -59,9 +57,5 @@ class SurvivorsController < ApplicationController
       resource[:amount].to_i.times { resources << { type: resource[:type] } }
     end
     resources
-  end
-
-  def record_not_found(error)
-    render json: { error: error.message }, status: :not_found
   end
 end

@@ -1,5 +1,7 @@
 class Water < Resource
-  def self.points
-    4
+  TRADE_POINTS = 4
+
+  def points
+    TRADE_POINTS
   end
 end

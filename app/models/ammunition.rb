@@ -1,5 +1,7 @@
 class Ammunition < Resource
-  def self.points
-    1
+  TRADE_POINTS = 1
+
+  def points
+    TRADE_POINTS
   end
 end
