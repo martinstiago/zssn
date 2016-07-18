@@ -1,5 +1,6 @@
 class TradesController < ApplicationController
   def trade
+    # Check for infected survivors
     survivors.each do |survivor|
       instance_variable_set("@#{survivor}", Survivor.find(trade_params[survivor][:id]))
       render(json: { error: "#{survivor.to_s.humanize} is infected! Run away from him!!!" },
@@ -7,6 +8,7 @@ class TradesController < ApplicationController
       instance_variable_set("@#{survivor}_resources", [])
     end
 
+    # Check for inconsistent resources
     survivors.each do |survivor|
       trade_params[survivor][:resources].each do |resource|
         render(json: { error: "Invalid resources for #{survivor.to_s.humanize}" },
@@ -44,7 +46,8 @@ class TradesController < ApplicationController
   end
 
   def valid_resources?(survivor, resource)
-    instance_variable_get("@#{survivor}").resources.where(type: resource[:type]).count >= resource[:amount].to_i
+    instance_variable_get("@#{survivor}").resources.where(type: resource[:type])
+                                         .count >= resource[:amount].to_i
   end
 
   def survivors
