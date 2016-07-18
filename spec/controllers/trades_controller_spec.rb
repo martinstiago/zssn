@@ -136,7 +136,7 @@ describe TradesController, type: :controller do
           expect(response.status).to eq(422)
 
           json = JSON.parse(response.body)
-          expect(json['error']).to eq('Invalid resources for survivor 1')
+          expect(json['error']).to eq('Invalid resources for Survivor 1')
         end
       end
 
@@ -160,7 +160,7 @@ describe TradesController, type: :controller do
           expect(response.status).to eq(422)
 
           json = JSON.parse(response.body)
-          expect(json['error']).to eq('Invalid resources for survivor 2')
+          expect(json['error']).to eq('Invalid resources for Survivor 2')
         end
       end
     end
