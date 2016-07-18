@@ -3,19 +3,19 @@ class TradesController < ApplicationController
     @survivor_1 = Survivor.find(trade_params[:survivor_1][:id])
     @survivor_2 = Survivor.find(trade_params[:survivor_2][:id])
 
-    render json: { error: 'Survivor 1 is infected! Run away from him!!!' }, status: 400 and return if @survivor_1.infected?
-    render json: { error: 'Survivor 2 is infected! Run away from him!!!' }, status: 400 and return if @survivor_2.infected?
+    render json: { error: 'Survivor 1 is infected! Run away from him!!!' }, status: :conflict and return if @survivor_1.infected?
+    render json: { error: 'Survivor 2 is infected! Run away from him!!!' }, status: :conflict and return if @survivor_2.infected?
 
     survivor_1_resources = []
     survivor_2_resources = []
 
     trade_params[:survivor_1][:resources].each do |resource|
-      render json: { error: 'Invalid resources for survivor 1' }, status: 400 and return unless valid_resources?(@survivor_1, resource)
+      render json: { error: 'Invalid resources for survivor 1' }, status: :unprocessable_entity and return unless valid_resources?(@survivor_1, resource)
       survivor_1_resources += @survivor_1.resources.where(type: resource[:type]).first(resource[:amount].to_i)
     end
 
     trade_params[:survivor_2][:resources].each do |resource|
-      render json: { error: 'Invalid resources for survivor 2' }, status: 400 and return unless valid_resources?(@survivor_2, resource)
+      render json: { error: 'Invalid resources for survivor 2' }, status: :unprocessable_entity and return unless valid_resources?(@survivor_2, resource)
       survivor_2_resources += @survivor_2.resources.where(type: resource[:type]).first(resource[:amount].to_i)
     end
 
@@ -29,7 +29,7 @@ class TradesController < ApplicationController
       render json: { message: 'Resources where traded sucessufuly' },
              status: :ok
     else
-      render json: { message: 'Invalid amount off point between both trade sides' },
+      render json: { error: 'Invalid amount of points between both sides' },
              status: :unprocessable_entity
     end
   end
@@ -42,6 +42,6 @@ class TradesController < ApplicationController
   end
 
   def valid_resources?(survivor, resource)
-    survivor.resources.where(type: resource[:type]).count <= resource[:amount].to_i
+    survivor.resources.where(type: resource[:type]).count >= resource[:amount].to_i
   end
 end
