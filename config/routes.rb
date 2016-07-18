@@ -4,4 +4,11 @@ Rails.application.routes.draw do
   end
 
   post :trade, to: 'trades#trade'
+
+  namespace :reports do
+    get :infected, to: 'reports#infected'
+    get 'non-infected', to: 'reports#non_infected'
+    get :resources, to: 'reports#resources'
+    get :points, to: 'reports#points'
+  end
 end

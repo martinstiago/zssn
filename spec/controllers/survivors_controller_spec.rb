@@ -175,12 +175,12 @@ describe SurvivorsController, type: :controller do
 
       context 'for a infected survivor' do
         it 'increment the infection counter and returns the infected message' do
-          survivor.update_column(:infection_count, 2)
+          survivor.update_column(:infection_count, Survivor::INFECTION_THRESHOLD - 1)
 
           post :report_infection, params: { id: survivor.id }
 
           expect(response.status).to eq(200)
-          expect(assigns(:survivor).infection_count).to eq(3)
+          expect(assigns(:survivor).infection_count).to eq(Survivor::INFECTION_THRESHOLD)
 
           json = JSON.parse(response.body)
           expect(json['message']).to eq('Infected survivor!!! Reported as infected 3 times. Kill him!!!!')

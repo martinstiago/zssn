@@ -5,5 +5,9 @@ FactoryGirl.define do
     gender 'M'
     latitude { Faker::Number.decimal(2, 6) }
     longitude { Faker::Number.decimal(2, 6) }
+
+    factory :infected_survivor do
+      infection_count Survivor::INFECTION_THRESHOLD
+    end
   end
 end

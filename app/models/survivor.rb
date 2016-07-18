@@ -1,4 +1,6 @@
 class Survivor < ApplicationRecord
+  INFECTION_THRESHOLD = 3
+
   has_many :resources
   accepts_nested_attributes_for :resources
 
@@ -6,7 +8,10 @@ class Survivor < ApplicationRecord
   validates :gender, format: { with: /\A[M|F]\z/,
                                message: 'invalid gender' }
 
+  scope :infected, -> { where('infection_count >= ?', INFECTION_THRESHOLD) }
+  scope :not_infected, -> { where('infection_count < ?', INFECTION_THRESHOLD) }
+
   def infected?
-    infection_count >= 3
+    infection_count >= INFECTION_THRESHOLD
   end
 end
