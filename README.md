@@ -1,6 +1,8 @@
 ZSSN (Zombie Survival Social Network)
 ================
 
+Created to solve [this](https://gist.github.com/akitaonrails/711b5553533d1a14364907bbcdbee677#file-backend-md) challenge.
+
 ## How to install
 
 Before the installation, make sure to have the Ruby 2.3.1 installed. You can find how to do it [here](https://gorails.com/setup/ubuntu/14.04#ruby).
@@ -267,6 +269,7 @@ Error | Description
 422   | Invalid amount of points between both trade parts
 
 ### GET /reports/infected
+Percentage of infected survivors.
 
 ```
 GET /reports/infected
@@ -285,6 +288,7 @@ Content-Type: "application/json"
 ```
 
 ### GET /reports/non-infected
+Percentage of non-infected survivors.
 
 ```
 GET /reports/not-infected
@@ -303,6 +307,7 @@ Content-Type: "application/json"
 ```
 
 ### GET /reports/resources
+Average amount of each kind of resource by survivor.
 
 ```
 GET /reports/resources
@@ -324,6 +329,7 @@ Content-Type: "application/json"
 ```
 
 ### GET /reports/points
+Points lost because of infected survivor.
 
 ```
 GET /reports/points
