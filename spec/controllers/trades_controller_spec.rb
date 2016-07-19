@@ -57,7 +57,7 @@ describe TradesController, type: :controller do
       expect(response.status).to eq(200)
 
       json = JSON.parse(response.body)
-      expect(json['message']).to eq('Resources where traded sucessufuly')
+      expect(json['message']).to eq('Resources where traded successfully')
 
       expect(water_resources.reload.survivor).to eq(survivor_2)
       food_resources.each { |resource| expect(resource.reload.survivor).to eq(survivor_2) }
@@ -93,7 +93,7 @@ describe TradesController, type: :controller do
 
     context 'when a survivor is infected' do
       it 'returns an infected survivor error for the first survivor' do
-        survivor_1.update_attribute(:infection_count, 3)
+        survivor_1.update_attribute(:infection_count, Survivor::INFECTION_THRESHOLD)
 
         post :trade, params: request_params
 
@@ -104,7 +104,7 @@ describe TradesController, type: :controller do
       end
 
       it 'returns an infected survivor error for the second survivor' do
-        survivor_2.update_attribute(:infection_count, 3)
+        survivor_2.update_attribute(:infection_count, Survivor::INFECTION_THRESHOLD)
 
         post :trade, params: request_params
 

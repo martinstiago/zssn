@@ -42,7 +42,7 @@ describe Trade, type: :model do
       trade.process
 
       expect(trade.valid).to eq(true)
-      expect(trade.message).to eq('Resources where traded sucessufuly')
+      expect(trade.message).to eq('Resources where traded successfully')
 
       expect(water_resources.reload.survivor).to eq(survivor_2)
       food_resources.each { |resource| expect(resource.reload.survivor).to eq(survivor_2) }

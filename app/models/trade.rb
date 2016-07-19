@@ -69,7 +69,7 @@ class Trade
     Resource.where(id: @survivor_2_resources).update_all(survivor_id: @survivor_1.id)
 
     self.valid = true
-    self.message = 'Resources where traded sucessufuly'
+    self.message = 'Resources where traded successfully'
   end
 
   def survivors
